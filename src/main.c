@@ -345,16 +345,36 @@ static void scrape(int c) {
 }
 
 // ---- lancement ----
+
 static void launch(const Game *g) {
     char uri[900];
-    if (ci == 0) snprintf(uri, sizeof uri, "psgm:play?titleid=%s", g->id);
-    else if (ci == 1) snprintf(uri, sizeof uri, "psgm:play?titleid=PSPEMUCFW");
-    else snprintf(uri, sizeof uri, "psgm:play?titleid=RETROVITA&param=%s/%s_libretro.self&param2=%s", RETRO_CORES, C[ci].core, g->path);
-    sceAppMgrLaunchAppByUri(0xFFFFF, uri);
-    sceKernelDelayThread(10000);
-    sceAppMgrLaunchAppByUri(0xFFFFF, uri);
+    int ret;
+
+    if (ci == 0) {
+        snprintf(uri, sizeof uri,
+                 "psgm:play?titleid=%s", g->id);
+    } else if (ci == 1) {
+        snprintf(uri, sizeof uri,
+                 "psgm:play?titleid=PSPEMUCFW");
+    } else {
+        snprintf(uri, sizeof uri,
+                 "psgm:play?titleid=RETROVITA&param=%s/%s_libretro.self&param2=%s",
+                 RETRO_CORES, C[ci].core, g->path);
+    }
+
+    ret = sceAppMgrLaunchAppByUri(0x20000, uri);
+
+    if (ret < 0) {
+        char error[80];
+        snprintf(error, sizeof error,
+                 "Erreur : 0x%08X", (unsigned int)ret);
+        msg("Echec du lancement", error);
+        return;
+    }
+
     sceKernelExitProcess(0);
 }
+
 
 static void switch_console(int d) {
     vita2d_wait_rendering_done();
