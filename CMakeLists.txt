@@ -26,11 +26,6 @@ target_link_libraries(${PROJECT_NAME}
 
 vita_create_self(eboot.bin ${PROJECT_NAME})
 vita_create_vpk(${PROJECT_NAME}.vpk ${VITA_TITLEID} eboot.bin
-    VERSION ${VITA_VERSION}
-    NAME ${VITA_APP_NAME}
-    FILE
-        ${CMAKE_SOURCE_DIR}/sce_sys/icon0.png sce_sys/icon0.png
-        ${CMAKE_SOURCE_DIR}/sce_sys/livearea/contents/bg0.png sce_sys/livearea/contents/bg0.png
-        ${CMAKE_SOURCE_DIR}/sce_sys/livearea/contents/startup.png sce_sys/livearea/contents/startup.png
-        ${CMAKE_SOURCE_DIR}/sce_sys/livearea/contents/template.xml sce_sys/livearea/contents/template.xml
+  VERSION ${VITA_VERSION}
+  NAME ${VITA_APP_NAME}
 )
